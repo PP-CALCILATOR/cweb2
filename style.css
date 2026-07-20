@@ -1,1 +1,1406 @@
+/* =====================================
+   PROBAGS LLP
+   Version 2
+===================================== */
 
+:root{
+
+--white:#ffffff;
+--black:#111111;
+--gray:#6d6d6d;
+--light:#f5f5f5;
+
+--radius:26px;
+
+--speed:.65s;
+
+--ease:cubic-bezier(.22,.61,.36,1);
+
+--header-height:72px;
+
+}
+
+*{
+
+margin:0;
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+background:var(--white);
+
+font-family:'Inter',sans-serif;
+
+color:var(--black);
+
+overflow-x:hidden;
+
+}
+
+img{
+
+display:block;
+
+width:100%;
+
+user-select:none;
+
+-webkit-user-drag:none;
+
+pointer-events:none;
+
+}
+
+a{
+
+text-decoration:none;
+
+color:inherit;
+
+}
+
+/* ======================
+LOADER
+====================== */
+
+#loader{
+
+position:fixed;
+
+inset:0;
+
+background:white;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:99999;
+
+transition:1s;
+
+}
+
+#loader h1{
+
+font-family:'Playfair Display',serif;
+
+font-size:42px;
+
+letter-spacing:2px;
+
+}
+
+/* ======================
+SCROLL BAR
+====================== */
+
+#progressBar{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+height:3px;
+
+width:0%;
+
+background:black;
+
+z-index:999999;
+
+}
+
+/* ======================
+HEADER
+====================== */
+
+header{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:var(--header-height);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:0 22px;
+
+z-index:500;
+
+backdrop-filter:blur(18px);
+
+background:rgba(255,255,255,.65);
+
+transition:all .4s ease;
+
+}
+
+.logo{
+
+font-family:'Playfair Display',serif;
+
+font-size:28px;
+
+font-weight:700;
+
+}
+
+nav{
+
+display:flex;
+
+gap:22px;
+
+}
+
+nav a{
+
+font-size:15px;
+
+font-weight:500;
+
+transition:.3s;
+
+}
+
+nav a:hover{
+
+opacity:.45;
+
+}
+
+/* ======================
+FULL SCREEN
+====================== */
+
+.screen{
+
+position:relative;
+
+height:100vh;
+
+width:100%;
+
+overflow:hidden;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.background{
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+overflow:hidden;
+
+}
+
+.background img{
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+transform:scale(1.08);
+
+transition:transform 1.6s ease;
+
+}
+
+.screen:hover .background img{
+
+transform:scale(1.02);
+
+}
+
+/* ======================
+CONTENT
+====================== */
+
+.content{
+
+position:relative;
+
+z-index:5;
+
+max-width:600px;
+
+padding:30px;
+
+color:white;
+
+}
+
+.center{
+
+text-align:center;
+
+}
+
+.left{
+
+text-align:left;
+
+}
+
+.right{
+
+text-align:right;
+
+margin-left:auto;
+
+}
+
+.subtitle{
+
+display:block;
+
+font-size:13px;
+
+letter-spacing:4px;
+
+text-transform:uppercase;
+
+margin-bottom:18px;
+
+opacity:.9;
+
+}
+
+/* ======================
+TEXT
+====================== */
+
+h1{
+
+font-family:'Playfair Display';
+
+font-size:64px;
+
+font-weight:600;
+
+line-height:.95;
+
+margin-bottom:24px;
+
+}
+
+h2{
+
+font-family:'Playfair Display';
+
+font-size:54px;
+
+font-weight:600;
+
+line-height:1;
+
+margin-bottom:16px;
+
+}
+
+h3{
+
+font-size:34px;
+
+font-weight:400;
+
+margin-bottom:20px;
+
+}
+
+p{
+
+font-size:18px;
+
+line-height:1.8;
+
+max-width:500px;
+
+}
+
+ul{
+
+list-style:none;
+
+margin-top:25px;
+
+}
+
+li{
+
+font-size:24px;
+
+margin:18px 0;
+
+}
+
+/* ======================
+BUTTON
+====================== */
+
+.button{
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:18px 42px;
+
+margin-top:35px;
+
+background:white;
+
+color:black;
+
+border-radius:999px;
+
+font-weight:600;
+
+transition:all .4s ease;
+
+}
+
+.button:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 18px 45px rgba(0,0,0,.22);
+
+}
+
+/* ======================
+SCROLL
+====================== */
+
+.scroll{
+
+position:absolute;
+
+bottom:35px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+font-size:12px;
+
+letter-spacing:4px;
+
+text-transform:uppercase;
+
+animation:scrollMove 2s infinite;
+
+color:white;
+
+}
+
+/* ======================
+REVEAL
+====================== */
+
+.hidden{
+
+opacity:0;
+
+transform:translateY(80px);
+
+transition:1s;
+
+}
+
+.show{
+
+opacity:1;
+
+transform:none;
+
+}
+
+/* ======================
+ANIMATIONS
+====================== */
+
+@keyframes scrollMove{
+
+0%{
+
+transform:translate(-50%,0);
+
+opacity:1;
+
+}
+
+50%{
+
+transform:translate(-50%,12px);
+
+}
+
+100%{
+
+transform:translate(-50%,0);
+
+opacity:1;
+
+}
+
+}
+
+@keyframes float{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+/* ======================
+MOBILE
+====================== */
+
+@media(max-width:768px){
+
+header{
+
+padding:0 18px;
+
+}
+
+.logo{
+
+font-size:22px;
+
+}
+
+nav{
+
+gap:14px;
+
+}
+
+nav a{
+
+font-size:13px;
+
+}
+
+.content{
+
+padding:24px;
+
+}
+
+h1{
+
+font-size:48px;
+
+}
+
+h2{
+
+font-size:40px;
+
+}
+
+h3{
+
+font-size:26px;
+
+}
+
+p{
+
+font-size:16px;
+
+}
+
+li{
+
+font-size:20px;
+
+}
+
+.button{
+
+padding:16px 34px;
+
+}
+
+}
+/* =====================================
+   PART 2
+   CINEMATIC SECTIONS
+===================================== */
+
+/* Overlay */
+
+.background::after{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+background:linear-gradient(
+180deg,
+rgba(0,0,0,.15),
+rgba(0,0,0,.40)
+);
+
+transition:.6s;
+
+}
+
+.light .background::after{
+
+background:linear-gradient(
+180deg,
+rgba(255,255,255,.05),
+rgba(255,255,255,.20)
+);
+
+}
+
+/* Dark & Light Themes */
+
+.dark{
+
+color:white;
+
+}
+
+.light{
+
+color:#111;
+
+}
+
+.light .button{
+
+background:#111;
+
+color:white;
+
+}
+
+.light .scroll{
+
+color:#111;
+
+}
+
+/* Hero */
+
+.hero .background img{
+
+animation:heroFloat 12s ease-in-out infinite;
+
+}
+
+/* Contact Screen */
+
+.contact-screen{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+}
+
+.contact-screen .content{
+
+max-width:700px;
+
+}
+
+.contact-screen h2{
+
+margin-bottom:25px;
+
+}
+
+.contact-screen p{
+
+margin:auto;
+
+margin-bottom:40px;
+
+}
+
+/* Sizes */
+
+.sizes{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+margin-top:40px;
+
+}
+
+.sizes div{
+
+padding:20px;
+
+border-radius:18px;
+
+backdrop-filter:blur(15px);
+
+background:rgba(255,255,255,.10);
+
+border:1px solid rgba(255,255,255,.18);
+
+font-size:20px;
+
+font-weight:500;
+
+transition:.4s;
+
+}
+
+.sizes div:hover{
+
+transform:translateY(-6px);
+
+background:rgba(255,255,255,.18);
+
+}
+
+/* Footer */
+
+footer{
+
+background:#111;
+
+color:white;
+
+padding:90px 25px;
+
+text-align:center;
+
+}
+
+.footer-logo{
+
+font-family:'Playfair Display';
+
+font-size:34px;
+
+margin-bottom:18px;
+
+}
+
+.footer-text{
+
+font-size:20px;
+
+margin-bottom:25px;
+
+}
+
+.footer-small{
+
+font-size:14px;
+
+opacity:.7;
+
+margin-top:10px;
+
+}
+
+/* Floating Button */
+
+.floating-cta{
+
+position:fixed;
+
+bottom:22px;
+
+right:22px;
+
+z-index:999;
+
+}
+
+.floating-cta a{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:16px 26px;
+
+background:#111;
+
+color:white;
+
+border-radius:999px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.22);
+
+font-weight:600;
+
+transition:.35s;
+
+}
+
+.floating-cta a:hover{
+
+transform:translateY(-5px);
+
+}
+
+/* Fade Animation */
+
+.fade-up{
+
+opacity:0;
+
+transform:translateY(80px);
+
+transition:1s;
+
+}
+
+.fade-up.show{
+
+opacity:1;
+
+transform:none;
+
+}
+
+/* Zoom Animation */
+
+.zoom{
+
+overflow:hidden;
+
+}
+
+.zoom img{
+
+transition:transform 2s ease;
+
+}
+
+.zoom:hover img{
+
+transform:scale(1.08);
+
+}
+
+/* Image Reveal */
+
+.reveal{
+
+overflow:hidden;
+
+}
+
+.reveal img{
+
+transform:scale(1.12);
+
+opacity:.85;
+
+transition:1.6s;
+
+}
+
+.reveal.show img{
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+/* Gallery */
+
+.gallery{
+
+display:flex;
+
+gap:22px;
+
+overflow-x:auto;
+
+scroll-snap-type:x mandatory;
+
+padding-bottom:10px;
+
+}
+
+.gallery::-webkit-scrollbar{
+
+display:none;
+
+}
+
+.gallery img{
+
+width:82vw;
+
+max-width:380px;
+
+border-radius:24px;
+
+scroll-snap-align:center;
+
+flex-shrink:0;
+
+box-shadow:0 20px 45px rgba(0,0,0,.18);
+
+}
+
+/* Smooth Section */
+
+.screen{
+
+transition:opacity .8s ease,
+transform .8s ease;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.content{
+
+width:100%;
+
+}
+
+.subtitle{
+
+font-size:11px;
+
+letter-spacing:3px;
+
+}
+
+.hero h1{
+
+font-size:52px;
+
+}
+
+h2{
+
+font-size:38px;
+
+}
+
+h3{
+
+font-size:24px;
+
+}
+
+.sizes div{
+
+font-size:18px;
+
+padding:18px;
+
+}
+
+.floating-cta{
+
+right:16px;
+
+bottom:16px;
+
+}
+
+.floating-cta a{
+
+padding:14px 20px;
+
+font-size:14px;
+
+}
+
+}
+
+/* Desktop */
+
+@media(min-width:1024px){
+
+.content{
+
+max-width:700px;
+
+}
+
+.hero h1{
+
+font-size:92px;
+
+}
+
+h2{
+
+font-size:72px;
+
+}
+
+h3{
+
+font-size:42px;
+
+}
+
+p{
+
+font-size:20px;
+
+}
+
+}
+
+/* Hero Float */
+
+@keyframes heroFloat{
+
+0%{
+
+transform:scale(1.08) translateY(0);
+
+}
+
+50%{
+
+transform:scale(1.12) translateY(-18px);
+
+}
+
+100%{
+
+transform:scale(1.08) translateY(0);
+
+}
+
+}
+/* =====================================
+   PART 3
+   PREMIUM POLISH
+===================================== */
+
+/* Smooth Rendering */
+
+html{
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+/* Selection */
+
+::selection{
+    background:#111;
+    color:#fff;
+}
+
+/* Scroll Snap */
+
+html{
+    scroll-snap-type:y mandatory;
+}
+
+.screen{
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+}
+
+/* Hide Scrollbar */
+
+body::-webkit-scrollbar{
+    width:0;
+}
+
+body{
+    scrollbar-width:none;
+}
+
+/* Image Performance */
+
+.background img{
+
+    will-change:transform;
+
+    backface-visibility:hidden;
+
+    transform-origin:center center;
+
+}
+
+/* Overlay Animation */
+
+.background::after{
+
+    transition:opacity .8s ease;
+
+}
+
+.screen:hover .background::after{
+
+    opacity:.75;
+
+}
+
+/* Hero */
+
+.hero .content{
+
+    animation:heroFade 1.4s ease;
+
+}
+
+@keyframes heroFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(50px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+/* Headings */
+
+h1,h2,h3{
+
+    letter-spacing:-1px;
+
+}
+
+/* Paragraph */
+
+p{
+
+    opacity:.92;
+
+}
+
+/* Navigation */
+
+nav a{
+
+    position:relative;
+
+}
+
+nav a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-5px;
+
+    width:0;
+
+    height:2px;
+
+    background:#111;
+
+    transition:.4s;
+
+}
+
+nav a:hover::after{
+
+    width:100%;
+
+}
+
+/* Logo */
+
+.logo{
+
+    transition:.4s;
+
+}
+
+.logo:hover{
+
+    letter-spacing:1px;
+
+}
+
+/* Buttons */
+
+.button{
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.button::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-100%;
+
+    top:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(255,255,255,.15);
+
+    transition:.6s;
+
+}
+
+.button:hover::before{
+
+    left:100%;
+
+}
+
+/* Floating CTA */
+
+.floating-cta{
+
+    transition:.4s;
+
+}
+
+.floating-cta:hover{
+
+    transform:translateY(-5px);
+
+}
+
+/* Image Hover */
+
+.background img{
+
+    transition:
+    transform 8s ease,
+    filter 1s ease;
+
+}
+
+.screen:hover img{
+
+    transform:scale(1.05);
+
+}
+
+/* Screen Transition */
+
+.screen{
+
+    opacity:1;
+
+    transition:
+    opacity .8s ease,
+    transform .8s ease;
+
+}
+
+/* Utilities */
+
+.mt-1{margin-top:10px;}
+.mt-2{margin-top:20px;}
+.mt-3{margin-top:30px;}
+.mt-4{margin-top:40px;}
+.mt-5{margin-top:50px;}
+
+.text-center{text-align:center;}
+.text-left{text-align:left;}
+.text-right{text-align:right;}
+
+.hidden{
+    opacity:0;
+}
+
+.visible{
+    opacity:1;
+}
+
+/* Reduce Motion */
+
+@media (prefers-reduced-motion:reduce){
+
+*{
+
+animation:none!important;
+
+transition:none!important;
+
+scroll-behavior:auto!important;
+
+}
+
+}
+
+/* Large Screens */
+
+@media(min-width:1400px){
+
+.hero h1{
+
+font-size:110px;
+
+}
+
+h2{
+
+font-size:84px;
+
+}
+
+.content{
+
+max-width:760px;
+
+}
+
+}
+
+/* Ultra Wide */
+
+@media(min-width:1800px){
+
+.hero h1{
+
+font-size:130px;
+
+}
+
+.content{
+
+max-width:900px;
+
+}
+
+}
+
+/* Landscape Phones */
+
+@media(max-height:500px){
+
+.screen{
+
+padding-top:90px;
+
+}
+
+.hero h1{
+
+font-size:42px;
+
+}
+
+h2{
+
+font-size:34px;
+
+}
+
+}
+
+/* Footer Animation */
+
+footer{
+
+transition:.5s;
+
+}
+
+footer:hover{
+
+background:#000;
+
+}
+
+/* End Marker */
+
+/* ===== PROBAGS LLP CSS COMPLETE ===== */
